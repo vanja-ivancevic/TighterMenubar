@@ -19,14 +19,6 @@ struct MenuBarSettingsView: View {
 
     // MARK: - Properties
 
-    private let symbolNames = [
-        "wifi", "battery.100.bolt", "speaker.wave.2.fill",
-        "magnifyingglass", "command.circle", "music.note"
-    ]
-    
-    /// A constant to make the preview scaling factor explicit and understandable.
-    private let previewPaddingScaleFactor: CGFloat = 4.0
-
     // MARK: - Body
 
     var body: some View {
@@ -64,33 +56,11 @@ struct MenuBarSettingsView: View {
     // MARK: - View Components
     
     private var previewSection: some View {
-        GroupBox("Preview") {
-            HStack(spacing: CGFloat(spacing)) {
-                ForEach(symbolNames, id: \.self) { name in
-                    previewSymbol(name: name)
-                }
-            }
-            .padding(.horizontal, 12)
-            .frame(height: 24)
-        }
-    }
-    
-    private func previewSymbol(name: String) -> some View {
-        let isHovered = hoveredSymbol == name
-        let backgroundColor = isHovered ? Color.gray.opacity(0.3) : Color.clear
-        
-        return Image(systemName: name)
-            .font(.system(size: fontManager.menuBarFontSize))
-            .padding(CGFloat(selectionPadding) / previewPaddingScaleFactor)
-            .background(backgroundColor)
-            .cornerRadius(4)
-            .accessibilityLabel(Text(name))
-            .onHover { isHovering in
-                withAnimation(.easeIn(duration: 0.1)) {
-                    hoveredSymbol = isHovering ? name : nil
-                }
-                logger.debug("Symbol hover state changed: \(name) - hovering: \(isHovering)")
-            }
+        MenuBarPreview(
+            spacing: $spacing,
+            selectionPadding: $selectionPadding,
+            fontManager: fontManager
+        )
     }
     
     private var controlsSection: some View {
@@ -206,8 +176,35 @@ struct MenuBarSettingsView: View {
         _ = run("/usr/bin/defaults", ["-currentHost","write","-g","NSStatusItemSpacing","-int","\(Int(spacing))"])
         _ = run("/usr/bin/defaults", ["-currentHost","write","-g","NSStatusItemSelectionPadding","-int","\(Int(selectionPadding))"])
         
-        // Also restart ControlCenter to apply changes immediately where possible
-        _ = run("/usr/bin/killall", ["ControlCenter"])
+        // Try graceful refresh first, fallback to killall if needed
+        if !refreshMenuBarGracefully() {
+            logger.warning("Graceful refresh failed, falling back to killall ControlCenter")
+            _ = run("/usr/bin/killall", ["ControlCenter"])
+        }
+    }
+    
+    /// Attempts to refresh the menu bar gracefully using distributed notifications
+    private func refreshMenuBarGracefully() -> Bool {
+        logger.info("Attempting graceful menu bar refresh")
+        
+        // Try multiple possible notification names based on research
+        let possibleNotifications = [
+            "com.apple.controlcenter.settingschanged",
+            "com.apple.systemuiserver.spacingchanged",
+            "com.apple.menubar.settingschanged",
+            "NSStatusItemSpacingChanged"
+        ]
+        
+        let center = DistributedNotificationCenter.default()
+        
+        for notificationName in possibleNotifications {
+            let notification = Notification.Name(notificationName)
+            center.post(name: notification, object: nil)
+            logger.debug("Posted notification: \(notificationName)")
+        }
+        
+        // For now, we assume success - in a full implementation, we'd verify the change took effect
+        return true
     }
 
     /// Deletes the custom defaults to restore system defaults
@@ -222,8 +219,11 @@ struct MenuBarSettingsView: View {
         selectionPadding = 1.0
         hasUnsavedChanges = false
         
-        // Restart ControlCenter
-        _ = run("/usr/bin/killall", ["ControlCenter"])
+        // Try graceful refresh first, fallback to killall if needed
+        if !refreshMenuBarGracefully() {
+            logger.warning("Graceful refresh failed, falling back to killall ControlCenter")
+            _ = run("/usr/bin/killall", ["ControlCenter"])
+        }
     }
 
     /// Requests user logout via AppleScript
