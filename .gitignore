@@ -1,0 +1,17 @@
+# Sensitive configuration files
+.kilocode/mcp.json
+
+# Xcode
+*.xcuserstate
+*.xcuserdatad/
+build/
+DerivedData/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
