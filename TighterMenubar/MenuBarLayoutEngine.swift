@@ -58,10 +58,10 @@ struct MenuBarLayoutEngine {
         // Font scaling factor based on research findings
         let fontScaleFactor = currentFontSize / os.defaultFontSize
         
-        // Progressive scaling: level 1 = tight, level 10 = current estimate
-        // Interpolate between tight start and current level 10 estimates
-        let spacingAtLevel10: CGFloat = 10.0  // Keep current level 10 estimate
-        let paddingAtLevel10: CGFloat = 8.0   // Keep current level 10 estimate
+        // Progressive scaling: level 1 = tight, level 10 = adjusted for accuracy
+        // Spacing reduced by ~50%, padding increased by ~2x based on empirical feedback
+        let spacingAtLevel10: CGFloat = 5.0   // Reduced from 10.0 (50% adjustment)
+        let paddingAtLevel10: CGFloat = 8.0   // Increased from 4.0 (2x adjustment)
         
         // Calculate progressive multipliers (0.0 to 1.0 range for values 1-10)
         let normalizedSpacing = CGFloat(spacingValue - 1) / 9.0  // 0.0 at level 1, 1.0 at level 10

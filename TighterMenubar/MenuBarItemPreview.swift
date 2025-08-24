@@ -38,7 +38,7 @@ struct MenuBarPreview: View {
     @Binding var selectionPadding: Double
     @ObservedObject var fontManager: SystemFontManager
     
-    @State private var hoveredSymbol: String? = nil
+    @State private var hoveredSymbol: String? = "wifi"
     
     private let symbolNames = [
         "wifi", "battery.100.bolt", "speaker.wave.2.fill",
