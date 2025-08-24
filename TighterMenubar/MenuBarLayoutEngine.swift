@@ -18,20 +18,20 @@ struct MenuBarLayoutEngine {
         let intrinsicButtonPadding: CGFloat
     }
     
-    /// OS version-specific constants with improved estimates
-    /// Level 1 should be much tighter, level 10 stays the same, interpolate between
+    /// OS version-specific constants with ultra-tight baseline (40% tighter)
+    /// Level 1 should be very tight, level 10 stays the same, interpolate between
     private static let osConstants: [Int: OSVersionConstants] = [
         14: OSVersionConstants(  // macOS Sonoma
-            baseSpacing: 1.0,      // Much tighter baseline
-            basePadding: 0.5,      // Much tighter baseline
+            baseSpacing: 0.6,      // 40% tighter baseline (was 1.0)
+            basePadding: 0.3,      // 40% tighter baseline (was 0.5)
             defaultFontSize: 14.0,
-            intrinsicButtonPadding: 1.0  // More realistic intrinsic padding
+            intrinsicButtonPadding: 0.6  // 40% tighter intrinsic padding (was 1.0)
         ),
         15: OSVersionConstants(  // macOS Sequoia
-            baseSpacing: 1.0,      // Much tighter baseline
-            basePadding: 0.5,      // Much tighter baseline
+            baseSpacing: 0.6,      // 40% tighter baseline (was 1.0)
+            basePadding: 0.3,      // 40% tighter baseline (was 0.5)
             defaultFontSize: 14.0,
-            intrinsicButtonPadding: 1.0  // More realistic intrinsic padding
+            intrinsicButtonPadding: 0.6  // 40% tighter intrinsic padding (was 1.0)
         )
     ]
     
