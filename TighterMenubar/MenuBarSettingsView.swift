@@ -79,7 +79,7 @@ struct MenuBarSettingsView: View {
                 .frame(width: 80, alignment: .leading)
             
             Slider(value: $spacing, in: 1...10, step: 1)
-            .onChange(of: spacing) { _, newValue in
+            .onChange(of: spacing) { newValue in
                 logger.debug("Spacing changed to: \(newValue)")
                 hasUnsavedChanges = true
             }
@@ -97,7 +97,7 @@ struct MenuBarSettingsView: View {
                 .frame(width: 80, alignment: .leading)
             
             Slider(value: $selectionPadding, in: 1...10, step: 1)
-            .onChange(of: selectionPadding) { _, newValue in
+            .onChange(of: selectionPadding) { newValue in
                 logger.debug("Selection padding changed to: \(newValue)")
                 hasUnsavedChanges = true
             }
