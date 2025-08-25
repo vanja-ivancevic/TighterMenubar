@@ -26,11 +26,22 @@ Both settings can be adjusted from 1 (tightest) to 10 (default system spacing), 
 - macOS 13.5 or later
 - Administrator privileges (required to modify system defaults)
 
+## Download
+
+### App Store (Recommended)
+[![Download on the App Store](TighterMenubar/Assets.xcassets/download-on-the-app-store.svg)](https://apps.apple.com/us/app/tightermenubar/id6751470911)
+
+### GitHub Releases
+You can also download the latest version directly from our [GitHub Releases](../../releases) page:
+- **DMG file**: For easy drag-and-drop installation
+- **ZIP file**: Contains the app bundle for manual installation
+
 ## Installation
 
-1. Download the latest release from the AppStore
-2. Launch the app and adjust your preferred settings
-3. Click "Apply & Logout" to activate the changes
+1. **From App Store**: Click the download button above or search for "TighterMenubar" in the Mac App Store
+2. **From GitHub**: Download the `.dmg` file from the latest release and drag the app to your Applications folder
+3. Launch the app and adjust your preferred settings
+4. Click "Apply & Logout" to activate the changes
 
 ## Usage
 
