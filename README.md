@@ -65,6 +65,10 @@ This is an open source project. Contributions are welcome! Please feel free to:
 - Submit pull requests for improvements
 - Share feedback on spacing calculations and visual accuracy
 
+## Other useful apps
+
+Please check out my other App: MiniWhisper, if you have the time. It's currently in open beta, with all Pro-Features enabled for the duration of the beta. I'd be really grateful for any feedback :). https://www.miniwhisper.app
+
 ## MIT License
 
 Copyright 2025 - Vanja Ivancevic
